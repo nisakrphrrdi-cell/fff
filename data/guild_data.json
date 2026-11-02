@@ -1,0 +1,159 @@
+{
+  "guildName": "โลกสวนดอกไม้",
+  "adminPin": "9999",
+  "flowers": [
+    {
+      "id": "f_jasmine",
+      "name": "มะลิสยามหอมกรุ่น",
+      "rarity": "green",
+      "imageUrl": "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=500&auto=format&fit=crop&q=80",
+      "description": "ดอกมะลิสีขาวบริสุทธิ์ ส่งกลิ่นหอมอบอวลทั่วแปลงปลูก",
+      "createdAt": 1793620685672
+    },
+    {
+      "id": "f_marigold",
+      "name": "ดาวเรืองทองอร่าม",
+      "rarity": "green",
+      "imageUrl": "https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=500&auto=format&fit=crop&q=80",
+      "description": "กลีบดอกสีเหลืองส้มสดใส นำพาโชคลาภและความรุ่งเรือง",
+      "createdAt": 1793620735672
+    },
+    {
+      "id": "f_zinnia",
+      "name": "บานชื่นสีหวาน",
+      "rarity": "green",
+      "imageUrl": "https://images.unsplash.com/photo-1596728325488-812e964ba984?w=500&auto=format&fit=crop&q=80",
+      "description": "ปลูกง่าย โตไว สีสันสดใส เบ่งบานรับแสงแดดยามเช้า",
+      "createdAt": 1793620785672
+    },
+    {
+      "id": "f_hibiscus",
+      "name": "ชบาแดงทับทิม",
+      "rarity": "green",
+      "imageUrl": "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=500&auto=format&fit=crop&q=80",
+      "description": "เกสรยาวโดดเด่น กลีบสีแดงชาดสะกดทุกสายตา",
+      "createdAt": 1793620835672
+    },
+    {
+      "id": "f_sunflower",
+      "name": "ทานตะวันรุ่งอรุณ",
+      "rarity": "blue",
+      "imageUrl": "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=500&auto=format&fit=crop&q=80",
+      "description": "หันหน้าหาแสงตะวันเสมอ ให้เมล็ดพันธุ์คุณประโยชน์สูง",
+      "createdAt": 1793620885672
+    },
+    {
+      "id": "f_lily_white",
+      "name": "ลิลลี่ขาวหิมะ",
+      "rarity": "blue",
+      "imageUrl": "https://images.unsplash.com/photo-1508615070457-7baeba4003ab?w=500&auto=format&fit=crop&q=80",
+      "description": "สัญลักษณ์แห่งความสง่างามและความบริสุทธิ์ของสวนกิลด์",
+      "createdAt": 1793620935672
+    },
+    {
+      "id": "f_hydrangea",
+      "name": "ไฮเดรนเยียหมอกฟ้า",
+      "rarity": "blue",
+      "imageUrl": "https://images.unsplash.com/photo-1507290439931-a861b5a38200?w=500&auto=format&fit=crop&q=80",
+      "description": "พุ่มดอกกลมโต เปลี่ยนสีตามสภาพดินและละอองน้ำค้าง",
+      "createdAt": 1793620985672
+    },
+    {
+      "id": "f_pink_tulip",
+      "name": "ทิวลิปเจ้าหญิงสีชมพู",
+      "rarity": "blue",
+      "imageUrl": "https://images.unsplash.com/photo-1520763185298-1b434c919102?w=500&auto=format&fit=crop&q=80",
+      "description": "ทรงถ้วยสวยงามสะดุดตา เป็นที่ชื่นชอบของผีเสื้อในสวน",
+      "createdAt": 1793621035672
+    },
+    {
+      "id": "f_damask_rose",
+      "name": "กุหลาบมอญเสน่หา",
+      "rarity": "purple21",
+      "imageUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&auto=format&fit=crop&q=80",
+      "description": "กลิ่นหอมลึกล้ำ สกัดเป็นน้ำปรุงทิพย์เพิ่มพลังชีวิต",
+      "createdAt": 1793621085672
+    },
+    {
+      "id": "f_lavender",
+      "name": "ลาเวนเดอร์มงกุฎม่วง",
+      "rarity": "purple21",
+      "imageUrl": "https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=500&auto=format&fit=crop&q=80",
+      "description": "ทุ่งดอกไม้สีม่วง ช่วยให้จิตใจสงบและผ่อนคลาย",
+      "createdAt": 1793621135672
+    },
+    {
+      "id": "f_vanda_orchid",
+      "name": "กล้วยไม้แวนด้าลายคราม",
+      "rarity": "purple21",
+      "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=500&auto=format&fit=crop&q=80",
+      "description": "กล้วยไม้อากาศลายตารางหมากรุก ลายกลีบดอกซับซ้อนงดงาม",
+      "createdAt": 1793621185672
+    },
+    {
+      "id": "f_indigo_iris",
+      "name": "ไอริสราตรีคราม",
+      "rarity": "purple23",
+      "imageUrl": "https://images.unsplash.com/photo-1558693165-88c9a3a9366e?w=500&auto=format&fit=crop&q=80",
+      "description": "กลีบพลิ้วไหวดั่งปีกสายฟ้า ยามต้องแสงจันทร์จะเปล่งประกายสีเงิน",
+      "createdAt": 1793621235672
+    },
+    {
+      "id": "f_bellflower",
+      "name": "ระฆังแก้วผลึกม่วง",
+      "rarity": "purple23",
+      "imageUrl": "https://images.unsplash.com/photo-1596728325488-812e964ba984?w=500&auto=format&fit=crop&q=80",
+      "description": "ดอกรูประฆังส่งเสียงกังวานอ่อนโยนเมื่อสายลมพัดผ่าน",
+      "createdAt": 1793621285672
+    },
+    {
+      "id": "f_golden_lotus",
+      "name": "บัวสวรรค์สีสุวรรณ",
+      "rarity": "yellow",
+      "imageUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&auto=format&fit=crop&q=80",
+      "description": "บัวทองคำที่บานเพียงปีละครั้งในสระแก้วของกิลด์",
+      "createdAt": 1793621335672
+    },
+    {
+      "id": "f_royal_peony",
+      "name": "โบตั๋นจักรพรรดินี",
+      "rarity": "yellow",
+      "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=500&auto=format&fit=crop&q=80",
+      "description": "ราชาแห่งมวลดอกไม้ กลีบซ้อนหนาแน่นกลิ่นหอมฟุ้งจรุงใจ",
+      "createdAt": 1793621385672
+    },
+    {
+      "id": "f_crimson_rose",
+      "name": "กุหลาบเพลิงพันปี",
+      "rarity": "red28",
+      "imageUrl": "https://images.unsplash.com/photo-1550950158-d0d960dff51b?w=500&auto=format&fit=crop&q=80",
+      "description": "มีประกายเปลวไฟสีชาดระยิบระยับล้อมรอบกลีบดอกไม่รู้โรยรา",
+      "createdAt": 1793621435672
+    },
+    {
+      "id": "f_eternal_blossom",
+      "name": "บุปผานิรันดร์สีทับทิม",
+      "rarity": "red28",
+      "imageUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&auto=format&fit=crop&q=80",
+      "description": "ดอกไม้ในตำนานโบราณ ว่ากันว่าช่วยเสริมพลังให้ทุกคนในกิลด์",
+      "createdAt": 1793621485672
+    },
+    {
+      "id": "f_snow_lotus",
+      "name": "บัวหิมะเก้าสวรรค์",
+      "rarity": "red30",
+      "imageUrl": "https://images.unsplash.com/photo-1508615070457-7baeba4003ab?w=500&auto=format&fit=crop&q=80",
+      "description": "เติบโตบนยอดผาน้ำแข็งในมิติเร้นลับ ละอองเกสรเรืองแสงสีรุ้ง",
+      "createdAt": 1793621535672
+    },
+    {
+      "id": "f_celestial_lily",
+      "name": "บุษราคัมมหาเทวี",
+      "rarity": "red30",
+      "imageUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&auto=format&fit=crop&q=80",
+      "description": "สุดยอดพรรณไม้หายากอันดับหนึ่งของโลกสวนดอกไม้ มีกลิ่นหอมลอยไกลข้ามเขา",
+      "createdAt": 1793621585672
+    }
+  ],
+  "members": []
+}

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>สวนดอกไม้กิลด์</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Prompt:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        botanic: {
+                            bg: '#FAF8F5',       /* Off-white / Cream */
+                            olive: '#7A8A5B',    /* Olive Green */
+                            darkOlive: '#4A5338',/* Dark Olive */
+                            brown: '#8B7355',    /* Soft Brown */
+                            sand: '#E6E2D6',     /* Sand / Beige */
+                            white: '#FFFFFF',
+                            green: '#84A98C',    /* Rarity Green */
+                            blue: '#719FB0',     /* Rarity Blue */
+                            purple: '#9C89B8',   /* Rarity Purple */
+                            yellow: '#DDA15E',   /* Rarity Yellow */
+                            red: '#B56576'       /* Rarity Red */
+                        }
+                    },
+                    fontFamily: {
+                        'head': ['Kanit', 'sans-serif'],
+                        'body': ['Prompt', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #E6E2D6; /* Sand background outside app container */
+            color: #4A5338;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        h1, h2, h3, h4, h5, h6, .font-head {
+            font-family: 'Kanit', sans-serif;
+        }
+        
+        /* Mobile app container */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #FAF8F5; /* Cream */
+            box-shadow: 0 0 40px rgba(74, 83, 56, 0.1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Hide Scrollbar */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E6E2D6; border-radius: 4px; }
+
+        /* Flower Card Animations */
+        .flower-card {
+            transition: all 0.3s ease;
+            border: 1px solid #E6E2D6;
+            background: #FFFFFF;
+        }
+        .flower-card.owned {
+            border-color: #7A8A5B;
+            background-color: #F4F7F2;
+            box-shadow: 0 4px 12px rgba(122, 138, 91, 0.15);
+        }
+
+        /* Filters */
+        .filter-chip {
+            transition: all 0.2s ease;
+        }
+        .filter-chip.active {
+            background-color: #7A8A5B;
+            color: white;
+            border-color: #7A8A5B;
+        }
+
+        /* Tabs */
+        .tab-btn {
+            position: relative;
+        }
+        .tab-btn.active {
+            color: #4A5338;
+            font-weight: 600;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 20%;
+            width: 60%;
+            height: 3px;
+            background-color: #7A8A5B;
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid #E6E2D6;
+            border-radius: 50%;
+            border-top: 3px solid #7A8A5B;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container flex flex-col">
+        
+        <!-- Global Loading -->
+        <div id="globalLoading" class="absolute inset-0 bg-botanic-bg/95 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
+            <div class="loader w-12 h-12 mb-4"></div>
+            <p class="font-head text-botanic-olive text-lg tracking-wide">กำลังเตรียมสวนดอกไม้...</p>
+        </div>
+
+        <!-- ======================= -->
+        <!-- LOGIN SCREEN            -->
+        <!-- ======================= -->
+        <div id="loginScreen" class="absolute inset-0 bg-botanic-bg z-40 flex flex-col items-center pt-24 px-8 hidden">
+            <div class="text-center mb-12">
+                <div class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 bg-white shadow-sm border border-botanic-sand">
+                    <svg class="w-12 h-12 text-botanic-olive" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-head text-botanic-darkOlive mb-1 tracking-wide">สวนดอกไม้กิลด์</h1>
+                <p class="text-botanic-brown text-sm font-light">สมุดสะสมพรรณไม้ของสมาชิก</p>
+            </div>
+
+            <div class="w-full">
+                <form id="loginForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-botanic-brown mb-2 font-head">เข้าใช้งานในชื่อ</label>
+                        <div class="relative">
+                            <select id="loginNameSelect" class="w-full border-b-2 border-botanic-sand bg-transparent px-2 py-3 text-botanic-darkOlive focus:outline-none focus:border-botanic-olive appearance-none transition-colors">
+                                <option value="">-- เลือกชื่อผู้ปลูก --</option>
+                                <option value="NEW_USER">+ ลงทะเบียนชื่อใหม่</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-botanic-olive">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <input type="text" id="loginNameNew" placeholder="กรอกชื่อตัวละครในเกม..." class="hidden w-full border-b-2 border-botanic-sand bg-transparent px-2 py-3 mt-3 text-botanic-darkOlive focus:outline-none focus:border-botanic-olive transition-colors">
+                    </div>
+
+                    <div class="pt-2">
+                        <label class="block text-sm font-medium text-botanic-brown mb-2 font-head">รหัสผ่าน 4 หลัก</label>
+                        <input type="password" id="loginPin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" required
+                            class="w-full border-b-2 border-botanic-sand bg-transparent px-2 py-3 text-botanic-darkOlive text-center tracking-[1em] text-xl focus:outline-none focus:border-botanic-olive transition-colors">
+                        <p class="text-xs text-botanic-brown/70 mt-3 text-center" id="pinHint">ตั้งรหัสลับเฉพาะตัวเพื่อปกป้องสมุดสะสมของคุณ</p>
+                    </div>
+
+                    <div class="pt-6">
+                        <button type="submit" class="w-full bg-botanic-olive hover:bg-botanic-darkOlive text-white font-head font-medium py-4 rounded-xl transition-all shadow-md flex justify-center items-center">
+                            <span id="loginBtnText" class="tracking-wide">เข้าสู่สวนดอกไม้</span>
+                            <div id="loginLoader" class="loader border-t-white hidden ml-3 w-5 h-5 border-2"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ======================= -->
+        <!-- MAIN APP CONTENT        -->
+        <!-- ======================= -->
+        <div id="mainApp" class="flex-1 flex flex-col h-full hidden">
+            
+            <!-- Header -->
+            <header class="bg-botanic-white pt-8 pb-0 px-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)] relative z-10">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-xl font-head text-botanic-darkOlive leading-tight">สวนดอกไม้กิลด์</h1>
+                        <p class="text-xs text-botanic-brown">สมุดพรรณไม้</p>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-sm font-head text-botanic-olive" id="headerUsername">นักปลูก</span>
+                        <button onclick="logout()" class="text-[10px] text-botanic-brown underline mt-0.5 hover:text-botanic-darkOlive">ออกจากระบบ</button>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <div class="flex justify-between border-b border-botanic-sand">
+                    <button onclick="switchTab('myFlowersTab')" id="btn-myFlowersTab" class="tab-btn active pb-4 px-2 text-sm font-head text-botanic-brown transition-colors">
+                        ดอกไม้ของฉัน
+                    </button>
+                    <button onclick="switchTab('guildTab')" id="btn-guildTab" class="tab-btn pb-4 px-2 text-sm font-head text-botanic-brown transition-colors">
+                        ภาพรวมกิลด์
+                    </button>
+                    <button onclick="switchTab('adminTab')" id="btn-adminTab" class="tab-btn pb-4 px-2 text-sm font-head text-botanic-brown transition-colors">
+                        จัดการระบบ
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable Body -->
+            <div class="flex-1 overflow-y-auto bg-botanic-bg px-5 py-6">
+
+                <!-- TAB 1: My Flowers -->
+                <div id="myFlowersTab" class="tab-content block">
+                    
+                    <!-- Progress Card -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-botanic-sand mb-6">
+                        <div class="flex justify-between items-end mb-3">
+                            <h2 class="font-head text-botanic-darkOlive">
+                                ความคืบหน้าของ <span id="progressName" class="text-botanic-olive">คุณ</span>
+                            </h2>
+                            <div class="text-sm text-botanic-brown text-right">
+                                <div><span id="ownedCount" class="text-botanic-olive font-medium text-lg">0</span> / <span id="totalCount">0</span> ดอก</div>
+                                <div class="text-xs mt-0.5"><span id="totalPoints" class="text-botanic-olive font-medium text-base">0</span> คะแนน</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-botanic-sand/50 rounded-full h-2 overflow-hidden">
+                            <div id="progressBar" class="bg-botanic-olive h-2 rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="relative mb-5">
+                        <input type="text" id="searchInput" placeholder="ค้นหาชื่อดอกไม้..." 
+                            class="w-full bg-white border border-botanic-sand rounded-full pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-botanic-olive focus:ring-1 focus:ring-botanic-olive shadow-sm transition-all text-botanic-darkOlive placeholder:text-botanic-brown/50">
+                        <svg class="w-5 h-5 absolute left-4 top-3.5 text-botanic-brown/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="mb-6 space-y-3">
+                        <div class="flex gap-2 overflow-x-auto custom-scrollbar pb-1">
+                            <button onclick="setFilterOwn('all')" id="flt-own-all" class="filter-chip active px-4 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown whitespace-nowrap">ทั้งหมด</button>
+                            <button onclick="setFilterOwn('owned')" id="flt-own-owned" class="filter-chip px-4 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown whitespace-nowrap">มีแล้ว</button>
+                            <button onclick="setFilterOwn('unowned')" id="flt-own-unowned" class="filter-chip px-4 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown whitespace-nowrap">ยังไม่มี</button>
+                        </div>
+                        <div class="flex gap-2 overflow-x-auto custom-scrollbar pb-1">
+                            <button onclick="setFilterRarity('all')" id="flt-rarity-all" class="filter-chip active px-4 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown whitespace-nowrap">ทุกระดับ</button>
+                            <button onclick="setFilterRarity('green')" id="flt-rarity-green" class="filter-chip px-3 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown flex items-center gap-1.5 whitespace-nowrap">
+                                <span class="w-2.5 h-2.5 rounded-full bg-botanic-green"></span> ธรรมดา (9)
+                            </button>
+                            <button onclick="setFilterRarity('blue')" id="flt-rarity-blue" class="filter-chip px-3 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown flex items-center gap-1.5 whitespace-nowrap">
+                                <span class="w-2.5 h-2.5 rounded-full bg-botanic-blue"></span> ทั่วไป (14)
+                            </button>
+                            <button onclick="setFilterRarity('purple21')" id="flt-rarity-purple21" class="filter-chip px-3 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown flex items-center gap-1.5 whitespace-nowrap">
+                                <span class="w-2.5 h-2.5 rounded-full bg-botanic-purple"></span> หายาก (21)
+                            </button>
+                            <button onclick="setFilterRarity('purple23')" id="flt-rarity-purple23" class="filter-chip px-3 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown flex items-center gap-1.5 whitespace-nowrap">
+                                <span class="w-2.5 h-2.5 rounded-full bg-botanic-purple"></span> หายาก (23)
+                            </button>
+                            <button onclick="setFilterRarity('yellow')" id="flt-rarity-yellow" class="filter-chip px-3 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown flex items-center gap-1.5 whitespace-nowrap">
+                                <span class="w-2.5 h-2.5 rounded-full bg-botanic-yellow"></span> งดงาม (25)
+                            </button>
+                            <button onclick="setFilterRarity('red28')" id="flt-rarity-red28" class="filter-chip px-3 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown flex items-center gap-1.5 whitespace-nowrap">
+                                <span class="w-2.5 h-2.5 rounded-full bg-botanic-red"></span> เซียน (28)
+                            </button>
+                            <button onclick="setFilterRarity('red30')" id="flt-rarity-red30" class="filter-chip px-3 py-1.5 rounded-full border border-botanic-sand text-xs font-head bg-white text-botanic-brown flex items-center gap-1.5 whitespace-nowrap">
+                                <span class="w-2.5 h-2.5 rounded-full bg-botanic-red"></span> เซียน (30)
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-[11px] text-botanic-brown/70 mb-4 text-center">แตะที่การ์ดเพื่อบันทึกว่าคุณมีดอกไม้นั้นแล้ว (ระบบบันทึกอัตโนมัติ)</p>
+
+                    <!-- Grid -->
+                    <div id="flowerGrid" class="grid grid-cols-2 gap-4">
+                        <!-- Populated by JS -->
+                    </div>
+                    
+                    <div id="emptyFlowers" class="hidden text-center py-16 flex flex-col items-center">
+                        <span class="text-4xl mb-3 opacity-30 text-botanic-brown">🌿</span>
+                        <p class="text-botanic-brown text-sm">ไม่พบดอกไม้ที่ค้นหา</p>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Guild Overview -->
+                <div id="guildTab" class="tab-content hidden">
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-botanic-sand text-center">
+                            <h3 class="text-3xl font-head text-botanic-olive mb-1" id="statMembers">0</h3>
+                            <p class="text-xs text-botanic-brown font-head">ผู้ปลูกในระบบ</p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-botanic-sand text-center">
+                            <h3 class="text-3xl font-head text-botanic-red/80 mb-1" id="statMissing">0</h3>
+                            <p class="text-xs text-botanic-brown font-head">ดอกไม้ที่ยังไม่มีใครพบ</p>
+                        </div>
+                    </div>
+
+                    <h3 class="font-head text-botanic-darkOlive mb-4 text-lg border-b border-botanic-sand pb-2">สมุดภาพกิลด์</h3>
+
+                    <div id="guildList" class="space-y-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- TAB 3: Admin -->
+                <div id="adminTab" class="tab-content hidden">
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-botanic-sand mb-8">
+                        <h2 class="font-head text-botanic-darkOlive text-lg mb-5 flex items-center gap-2">
+                            <span>🌱</span> เพิ่มพรรณไม้ใหม่
+                        </h2>
+                        
+                        <form id="adminForm" class="space-y-5">
+                            <div>
+                                <label class="block text-xs font-head text-botanic-brown mb-1.5">ชื่อดอกไม้</label>
+                                <input type="text" id="adminFlowerName" placeholder="เช่น กุหลาบมอญ" required
+                                    class="w-full bg-botanic-bg/50 border border-botanic-sand rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-botanic-olive transition-colors text-botanic-darkOlive">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-head text-botanic-brown mb-1.5">ระดับสายพันธุ์</label>
+                                <div class="relative">
+                                    <select id="adminFlowerRarity" required class="w-full bg-botanic-bg/50 border border-botanic-sand rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-botanic-olive appearance-none text-botanic-darkOlive">
+                                        <option value="green">🟢 สีเขียว - ระดับธรรมดา (9 คะแนน)</option>
+                                        <option value="blue">🔵 สีฟ้า - ระดับทั่วไป (14 คะแนน)</option>
+                                        <option value="purple21">🟣 สีม่วง - ระดับหายาก (21 คะแนน)</option>
+                                        <option value="purple23">🟣 สีม่วง - ระดับหายาก (23 คะแนน)</option>
+                                        <option value="yellow">🟡 สีเหลือง - ระดับงดงาม (25 คะแนน)</option>
+                                        <option value="red28">🔴 สีแดง - ระดับเซียน (28 คะแนน)</option>
+                                        <option value="red30">🔴 สีแดง - ระดับเซียน (30 คะแนน)</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-botanic-olive">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-head text-botanic-brown mb-1.5">ลิงก์รูปภาพ (URL)</label>
+                                <input type="url" id="adminFlowerImg" placeholder="https://..." required
+                                    class="w-full bg-botanic-bg/50 border border-botanic-sand rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-botanic-olive transition-colors text-botanic-darkOlive">
+                                <p class="text-[10px] text-botanic-brown/60 mt-1.5 pl-1">แนะนำให้ใช้ภาพพื้นหลังสีอ่อนหรือโปร่งใส</p>
+                            </div>
+                            <button type="submit" id="adminSubmitBtn" class="w-full bg-botanic-olive hover:bg-botanic-darkOlive text-white font-head py-3 rounded-xl transition-all text-sm mt-2 flex justify-center items-center">
+                                ลงบันทึกเข้าระบบ
+                            </button>
+                        </form>
+                    </div>
+
+                    <h3 class="font-head text-botanic-darkOlive mb-4 text-lg border-b border-botanic-sand pb-2">รายชื่อนักปลูกในกิลด์</h3>
+                    <div class="bg-white rounded-2xl shadow-sm border border-botanic-sand overflow-hidden mb-8">
+                        <ul id="adminMemberList" class="divide-y divide-botanic-sand/50 max-h-72 overflow-y-auto">
+                            <!-- Populated by JS -->
+                            <li class="p-5 text-center text-sm text-botanic-brown">ยังไม่มีข้อมูล</li>
+                        </ul>
+                    </div>
+
+                    <!-- Delete Member Section -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-botanic-sand border-l-4 border-l-botanic-red/60 mb-6">
+                        <h2 class="font-head text-botanic-red/80 text-lg mb-4 flex items-center gap-2">
+                            <span>⚠️</span> ลบรายชื่อผู้ที่ออกจากกิลด์
+                        </h2>
+                        <div class="flex flex-col gap-3">
+                            <div class="relative">
+                                <select id="adminDeleteMemberSelect" class="w-full bg-botanic-bg/50 border border-botanic-sand rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-botanic-red appearance-none text-botanic-darkOlive">
+                                    <option value="">-- เลือกรายชื่อที่ต้องการลบ --</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-botanic-olive">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
+                            <button onclick="adminDeleteMember()" class="w-full bg-white border border-botanic-red text-botanic-red hover:bg-botanic-red hover:text-white font-head py-2.5 rounded-xl transition-all text-sm flex justify-center items-center">
+                                ลบข้อมูลออกจากระบบถาวร
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin PIN Modal -->
+    <div id="adminPinModal" class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm hidden px-4" style="background-color: rgba(74, 83, 56, 0.6);">
+        <div class="bg-white rounded-2xl p-6 shadow-xl w-full max-w-sm border border-botanic-sand transform transition-all">
+            <div class="text-center mb-4">
+                <span class="text-3xl">🛡️</span>
+                <h3 class="font-head text-botanic-darkOlive text-lg mt-2">ยืนยันตัวตนแอดมิน</h3>
+                <p class="text-sm text-botanic-brown mt-1">กรุณากรอกรหัสผ่านเพื่อจัดการกิลด์</p>
+            </div>
+            <input type="password" id="adminPinInput" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" class="w-full bg-botanic-bg/50 border border-botanic-sand rounded-xl px-4 py-3 text-center tracking-[1em] text-xl focus:outline-none focus:border-botanic-olive transition-colors mb-5 text-botanic-darkOlive">
+            <div class="flex gap-3">
+                <button onclick="closeAdminPinModal()" class="flex-1 bg-botanic-bg text-botanic-brown hover:bg-botanic-sand font-head py-2.5 rounded-xl transition-colors text-sm">ยกเลิก</button>
+                <button onclick="verifyAdminPin()" class="flex-1 bg-botanic-olive text-white hover:bg-botanic-darkOlive font-head py-2.5 rounded-xl transition-colors text-sm">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 -translate-y-20 opacity-0 transition-all duration-400 bg-botanic-darkOlive text-white font-head px-6 py-3 rounded-full shadow-[0_10px_30px_rgba(74,83,56,0.3)] text-sm z-50 pointer-events-none flex items-center gap-3">
+        <span id="toastIcon">✨</span>
+        <span id="toastMsg" class="tracking-wide">บันทึกสำเร็จ</span>
+    </div>
+
+    <!-- Firebase Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Collaborative environment config variables
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'guild-botanic-app';
+        const firebaseConfigStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db = null;
+        let auth = null;
+        
+        // Data State
+        let globalFlowers = [];
+        let globalMembers = [];
+        let currentUser = null; 
+
+        // View State
+        let fltOwn = 'all'; 
+        let fltRarity = 'all'; 
+        let searchQuery = '';
+        let isAdminAuthenticated = false; // State สำหรับเช็คสถานะแอดมิน
+
+        const elGlobalLoading = document.getElementById('globalLoading');
+        const elLoginScreen = document.getElementById('loginScreen');
+        const elMainApp = document.getElementById('mainApp');
+        
+        // UI Helpers
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.className = `fixed top-8 left-1/2 transform -translate-x-1/2 -translate-y-0 opacity-100 transition-all duration-400 font-head px-6 py-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.2)] text-sm z-50 pointer-events-none flex items-center gap-3 ${isError ? 'bg-botanic-red text-white' : 'bg-botanic-darkOlive text-white'}`;
+            document.getElementById('toastMsg').textContent = msg;
+            document.getElementById('toastIcon').textContent = isError ? '⚠️' : '✨';
+            setTimeout(() => {
+                toast.classList.remove('-translate-y-0', 'opacity-100');
+                toast.classList.add('-translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        window.switchTab = function(tabId) {
+            // เช็คการเข้าถึงหน้าแอดมิน
+            if (tabId === 'adminTab' && !isAdminAuthenticated) {
+                document.getElementById('adminPinModal').classList.remove('hidden');
+                document.getElementById('adminPinInput').focus();
+                return;
+            }
+
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(`btn-${tabId}`).classList.add('active');
+
+            if(tabId === 'guildTab') renderGuildTab();
+        }
+
+        window.closeAdminPinModal = function() {
+            document.getElementById('adminPinModal').classList.add('hidden');
+            document.getElementById('adminPinInput').value = '';
+        }
+
+        window.verifyAdminPin = function() {
+            const pin = document.getElementById('adminPinInput').value;
+            // รหัสแอดมินเริ่มต้นคือ 9999 (สามารถเปลี่ยนได้ตรงนี้)
+            if (pin === '9999') {
+                isAdminAuthenticated = true;
+                closeAdminPinModal();
+                switchTab('adminTab');
+                showToast('เข้าสู่โหมดแอดมินสำเร็จ');
+            } else {
+                showToast('รหัสแอดมินไม่ถูกต้อง', true);
+                document.getElementById('adminPinInput').value = '';
+                document.getElementById('adminPinInput').focus();
+            }
+        }
+
+        // Color mapper for rarity
+        const rarityPoints = {
+            'green': 9,
+            'blue': 14,
+            'purple21': 21,
+            'purple23': 23,
+            'yellow': 25,
+            'red28': 28,
+            'red30': 30
+        };
+
+        function getRarityColorClass(rarity) {
+            const map = {
+                'green': 'bg-botanic-green',
+                'blue': 'bg-botanic-blue',
+                'purple21': 'bg-botanic-purple',
+                'purple23': 'bg-botanic-purple',
+                'yellow': 'bg-botanic-yellow',
+                'red28': 'bg-botanic-red',
+                'red30': 'bg-botanic-red'
+            };
+            return map[rarity] || 'bg-botanic-sand';
+        }
+        function getRarityBorderClass(rarity) {
+            const map = {
+                'green': 'border-botanic-green',
+                'blue': 'border-botanic-blue',
+                'purple21': 'border-botanic-purple',
+                'purple23': 'border-botanic-purple',
+                'yellow': 'border-botanic-yellow',
+                'red28': 'border-botanic-red',
+                'red30': 'border-botanic-red'
+            };
+            return map[rarity] || 'border-botanic-sand';
+        }
+
+        // INIT
+        async function initApp() {
+            if (!firebaseConfigStr) {
+                elGlobalLoading.innerHTML = `<div class="text-botanic-red text-3xl mb-3">⚠️</div><p class="font-head text-botanic-darkOlive">ไม่พบการเชื่อมต่อฐานข้อมูล</p>`;
+                return;
+            }
+
+            try {
+                const app = initializeApp(JSON.parse(firebaseConfigStr));
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Authentication Rule 3
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // Collections Rule 1 & 2
+                const flowersRef = collection(db, 'artifacts', appId, 'public', 'data', 'botanic_flowers');
+                const membersRef = collection(db, 'artifacts', appId, 'public', 'data', 'botanic_members');
+
+                // Flowers Listener
+                onSnapshot(flowersRef, (snapshot) => {
+                    globalFlowers = [];
+                    snapshot.forEach(doc => {
+                        globalFlowers.push({ id: doc.id, ...doc.data() });
+                    });
+                    globalFlowers.sort((a,b) => a.name.localeCompare(b.name, 'th'));
+                    
+                    if(currentUser) {
+                        updateProgress();
+                        renderMyFlowers();
+                    }
+                    if(!document.getElementById('guildTab').classList.contains('hidden')) {
+                        renderGuildTab();
+                    }
+                }, err => console.error("Flowers Error:", err));
+
+                // Members Listener
+                onSnapshot(membersRef, (snapshot) => {
+                    globalMembers = [];
+                    snapshot.forEach(doc => {
+                        globalMembers.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    updateLoginDropdown();
+                    
+                    if (currentUser) {
+                        const syncedUser = globalMembers.find(m => m.id === currentUser.id);
+                        if (syncedUser) {
+                            currentUser = syncedUser;
+                            updateProgress();
+                            renderMyFlowers(); 
+                        }
+                    } else {
+                        elGlobalLoading.classList.add('hidden');
+                        elLoginScreen.classList.remove('hidden');
+                    }
+                    
+                    if(!document.getElementById('guildTab').classList.contains('hidden')) renderGuildTab();
+                    renderAdminMembers();
+                }, err => console.error("Members Error:", err));
+
+            } catch (error) {
+                console.error("Init error:", error);
+                elGlobalLoading.innerHTML = `<div class="text-botanic-red text-3xl mb-3">⚠️</div><p class="font-head text-botanic-darkOlive text-center px-4">${error.message}</p>`;
+            }
+        }
+
+        // ================= Login =================
+        const loginSelect = document.getElementById('loginNameSelect');
+        const loginNameNew = document.getElementById('loginNameNew');
+        
+        function updateLoginDropdown() {
+            while (loginSelect.options.length > 2) loginSelect.remove(2);
+            globalMembers.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m.id;
+                opt.textContent = m.name;
+                loginSelect.appendChild(opt);
+            });
+        }
+
+        loginSelect.addEventListener('change', (e) => {
+            if (e.target.value === 'NEW_USER') {
+                loginNameNew.classList.remove('hidden');
+                loginNameNew.required = true;
+            } else {
+                loginNameNew.classList.add('hidden');
+                loginNameNew.required = false;
+                loginNameNew.value = '';
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const selectedVal = loginSelect.value;
+            const pin = document.getElementById('loginPin').value.trim();
+            const btnText = document.getElementById('loginBtnText');
+            const loader = document.getElementById('loginLoader');
+            
+            if(!selectedVal) return showToast('กรุณาเลือกชื่อหรือสร้างใหม่', true);
+            if(pin.length !== 4) return showToast('รหัสผ่านต้องเป็น 4 หลัก', true);
+
+            btnText.textContent = 'กำลังโหลด...';
+            loader.classList.remove('hidden');
+            
+            try {
+                if (selectedVal === 'NEW_USER') {
+                    const newName = loginNameNew.value.trim();
+                    if(!newName) throw new Error('กรุณากรอกชื่อของคุณ');
+                    
+                    const newId = 'botanist_' + Date.now();
+                    const newUserObj = { name: newName, pin: pin, flowers: [] };
+                    
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'botanic_members', newId);
+                    await setDoc(docRef, newUserObj);
+                    currentUser = { id: newId, ...newUserObj };
+                } else {
+                    const existingUser = globalMembers.find(m => m.id === selectedVal);
+                    if(!existingUser) throw new Error('ไม่พบข้อมูลผู้ใช้');
+                    if(existingUser.pin !== pin) throw new Error('รหัส 4 หลักไม่ถูกต้อง');
+                    currentUser = existingUser;
+                }
+
+                document.getElementById('headerUsername').textContent = currentUser.name;
+                document.getElementById('progressName').textContent = currentUser.name;
+                
+                elLoginScreen.classList.add('hidden');
+                elMainApp.classList.remove('hidden');
+                
+                updateProgress();
+                renderMyFlowers();
+                showToast(`ยินดีต้อนรับ ${currentUser.name}`);
+
+            } catch (err) {
+                showToast(err.message, true);
+            } finally {
+                btnText.textContent = 'เข้าสู่สวนดอกไม้';
+                loader.classList.add('hidden');
+                document.getElementById('loginPin').value = '';
+            }
+        });
+
+        window.logout = function() {
+            currentUser = null;
+            elMainApp.classList.add('hidden');
+            elLoginScreen.classList.remove('hidden');
+            loginSelect.value = "";
+            loginNameNew.classList.add('hidden');
+            switchTab('myFlowersTab');
+        }
+
+        // ================= My Flowers =================
+        window.setFilterOwn = function(val) {
+            fltOwn = val;
+            document.querySelectorAll('[id^="flt-own-"]').forEach(el => el.classList.remove('active', 'bg-botanic-olive', 'text-white'));
+            document.getElementById(`flt-own-${val}`).classList.add('active', 'bg-botanic-olive', 'text-white');
+            renderMyFlowers();
+        }
+        window.setFilterRarity = function(val) {
+            fltRarity = val;
+            document.querySelectorAll('[id^="flt-rarity-"]').forEach(el => el.classList.remove('active', 'bg-botanic-olive', 'text-white'));
+            document.getElementById(`flt-rarity-${val}`).classList.add('active', 'bg-botanic-olive', 'text-white');
+            renderMyFlowers();
+        }
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            renderMyFlowers();
+        });
+
+        function updateProgress() {
+            if(!currentUser) return;
+            const owned = currentUser.flowers ? currentUser.flowers.length : 0;
+            const total = globalFlowers.length;
+            
+            let points = 0;
+            (currentUser.flowers || []).forEach(fid => {
+                const f = globalFlowers.find(x => x.id === fid);
+                if(f && rarityPoints[f.rarity]) points += rarityPoints[f.rarity];
+            });
+
+            document.getElementById('ownedCount').textContent = owned;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('totalPoints').textContent = points;
+
+            const pct = total === 0 ? 0 : (owned / total) * 100;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+        }
+
+        function renderMyFlowers() {
+            const grid = document.getElementById('flowerGrid');
+            const empty = document.getElementById('emptyFlowers');
+            grid.innerHTML = '';
+            
+            if(!currentUser) return;
+            const userOwnedSet = new Set(currentUser.flowers || []);
+
+            let filtered = globalFlowers.filter(f => {
+                const isOwned = userOwnedSet.has(f.id);
+                if (fltOwn === 'owned' && !isOwned) return false;
+                if (fltOwn === 'unowned' && isOwned) return false;
+                if (fltRarity !== 'all' && f.rarity !== fltRarity) return false;
+                if (searchQuery && !f.name.toLowerCase().includes(searchQuery)) return false;
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                empty.classList.remove('hidden');
+                empty.classList.add('flex');
+                return;
+            }
+            grid.classList.remove('hidden');
+            empty.classList.add('hidden');
+            empty.classList.remove('flex');
+
+            filtered.forEach(flower => {
+                const isOwned = userOwnedSet.has(flower.id);
+                const rColor = getRarityColorClass(flower.rarity);
+                const rBorder = getRarityBorderClass(flower.rarity);
+                const pts = rarityPoints[flower.rarity] || 0;
+                
+                const card = document.createElement('div');
+                card.className = `flower-card rounded-2xl p-3 relative cursor-pointer select-none overflow-hidden ${isOwned ? 'owned' : ''}`;
+                // Add a subtle border matching rarity on the left edge
+                if(isOwned) card.style.borderLeft = `4px solid var(--tw-bg-opacity, 1)`;
+                card.onclick = () => toggleFlower(flower.id, isOwned);
+
+                const fallbackImg = `https://placehold.co/200x200/FAF8F5/8B7355?text=${encodeURIComponent(flower.name.substring(0,2))}&font=Prompt`;
+
+                card.innerHTML = `
+                    <div class="relative rounded-xl overflow-hidden mb-3 bg-botanic-bg pb-[100%] border border-botanic-sand/30">
+                        <img src="${flower.imageUrl}" onerror="this.onerror=null;this.src='${fallbackImg}';" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        
+                        <!-- Rarity dot overlay on image -->
+                        <div class="absolute top-2 left-2 w-5 h-5 rounded-full ${rColor} border border-white shadow-sm flex items-center justify-center text-[10px] text-white font-bold font-head">${pts}</div>
+                        
+                        <!-- Checkmark -->
+                        <div class="absolute top-2 right-2 ${isOwned ? 'bg-botanic-olive opacity-100 scale-100' : 'bg-botanic-sand/50 opacity-0 scale-75'} rounded-full w-6 h-6 flex items-center justify-center transition-all duration-300">
+                            <svg class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                        </div>
+                    </div>
+                    <div class="px-1 text-center">
+                        <p class="text-sm font-medium text-botanic-darkOlive truncate w-full tracking-wide">${flower.name}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function toggleFlower(flowerId, isCurrentlyOwned) {
+            if(!currentUser || !db) return;
+            
+            // Optimistic UI
+            let newFlowers = [...(currentUser.flowers || [])];
+            if (isCurrentlyOwned) {
+                newFlowers = newFlowers.filter(id => id !== flowerId);
+            } else {
+                newFlowers.push(flowerId);
+            }
+            currentUser.flowers = newFlowers;
+            updateProgress();
+            renderMyFlowers();
+
+            // Firebase Save
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'botanic_members', currentUser.id);
+                await setDoc(docRef, { flowers: newFlowers }, { merge: true });
+            } catch(e) {
+                console.error("Save error", e);
+                showToast("เครือข่ายขัดข้อง ไม่สามารถบันทึกได้", true);
+            }
+        }
+
+        // ================= Guild Overview =================
+        function renderGuildTab() {
+            const list = document.getElementById('guildList');
+            document.getElementById('statMembers').textContent = globalMembers.length;
+            
+            let missingCount = 0;
+            list.innerHTML = '';
+
+            if (globalFlowers.length === 0) {
+                list.innerHTML = '<p class="text-center text-botanic-brown py-12 text-sm">คลังพรรณไม้ยังว่างเปล่า</p>';
+                return;
+            }
+
+            globalFlowers.forEach(flower => {
+                const owners = globalMembers.filter(m => (m.flowers || []).includes(flower.id));
+                if(owners.length === 0) missingCount++;
+
+                const rColor = getRarityColorClass(flower.rarity);
+                const pts = rarityPoints[flower.rarity] || 0;
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl p-4 shadow-sm border border-botanic-sand flex items-center gap-4';
+                
+                const fallbackImg = `https://placehold.co/100x100/FAF8F5/8B7355?text=${encodeURIComponent(flower.name.substring(0,2))}`;
+
+                let ownersHtml = '';
+                if(owners.length > 0) {
+                    ownersHtml = owners.map(o => `<span class="inline-block bg-botanic-bg text-botanic-darkOlive text-[11px] px-2.5 py-1 rounded-md border border-botanic-sand/50 mr-1.5 mb-1.5 shadow-sm">${o.name}</span>`).join('');
+                } else {
+                    ownersHtml = `<span class="text-xs text-botanic-red/70 font-light">ยังไม่มีสมาชิกค้นพบ</span>`;
+                }
+
+                card.innerHTML = `
+                    <div class="relative shrink-0">
+                        <img src="${flower.imageUrl}" onerror="this.onerror=null;this.src='${fallbackImg}';" class="w-20 h-20 rounded-xl object-cover border border-botanic-sand/50 shadow-sm">
+                        <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${rColor} border-2 border-white shadow-sm flex items-center justify-center text-[9px] text-white font-bold">${pts}</div>
+                    </div>
+                    <div class="flex-1 min-w-0 py-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="text-base font-head text-botanic-darkOlive truncate pr-2">
+                                ${flower.name}
+                            </h4>
+                            <span class="text-[10px] font-medium ${owners.length > 0 ? 'text-botanic-olive bg-botanic-olive/10' : 'text-botanic-brown bg-botanic-bg'} px-2 py-0.5 rounded-full whitespace-nowrap border border-botanic-sand/50">
+                                ${owners.length} คน
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap">
+                            ${ownersHtml}
+                        </div>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+
+            document.getElementById('statMissing').textContent = missingCount;
+        }
+
+        // ================= Admin =================
+        document.getElementById('adminForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(!db) return;
+
+            const name = document.getElementById('adminFlowerName').value.trim();
+            const rarity = document.getElementById('adminFlowerRarity').value;
+            const img = document.getElementById('adminFlowerImg').value.trim();
+            const btn = document.getElementById('adminSubmitBtn');
+
+            if(!name || !img) return;
+
+            try {
+                btn.disabled = true;
+                btn.innerHTML = '<div class="loader border-t-white w-4 h-4 mr-2"></div> บันทึกข้อมูล...';
+
+                const docId = 'b_flower_' + Date.now();
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'botanic_flowers', docId);
+                
+                await setDoc(docRef, { name, rarity, imageUrl: img, createdAt: Date.now() });
+
+                document.getElementById('adminForm').reset();
+                showToast("เพิ่มพรรณไม้ใหม่ลงสมุดแล้ว");
+            } catch (err) {
+                console.error(err);
+                showToast(err.message, true);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'ลงบันทึกเข้าระบบ';
+            }
+        });
+
+        function renderAdminMembers() {
+            const list = document.getElementById('adminMemberList');
+            const deleteSelect = document.getElementById('adminDeleteMemberSelect');
+            list.innerHTML = '';
+            
+            // Clear existing options except the first placeholder
+            while (deleteSelect.options.length > 1) {
+                deleteSelect.remove(1);
+            }
+            
+            if(globalMembers.length === 0) {
+                list.innerHTML = '<li class="p-6 text-center text-sm text-botanic-brown">ยังไม่มีข้อมูลนักปลูก</li>';
+                return;
+            }
+
+            globalMembers.forEach(m => {
+                let mPts = 0;
+                (m.flowers || []).forEach(fid => {
+                    const f = globalFlowers.find(x => x.id === fid);
+                    if(f && rarityPoints[f.rarity]) mPts += rarityPoints[f.rarity];
+                });
+
+                const li = document.createElement('li');
+                li.className = 'p-4 flex justify-between items-center text-sm text-botanic-darkOlive';
+                li.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-botanic-bg border border-botanic-sand flex items-center justify-center text-xs text-botanic-olive font-head uppercase">
+                            ${m.name.substring(0,2)}
+                        </div>
+                        <span class="font-medium">${m.name}</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-xs font-head text-botanic-olive">สะสม ${m.flowers ? m.flowers.length : 0} สายพันธุ์</span>
+                        <span class="block text-[10px] text-botanic-brown mt-0.5">${mPts} คะแนน</span>
+                    </div>
+                `;
+                list.appendChild(li);
+
+                // Add to Delete Dropdown
+                const opt = document.createElement('option');
+                opt.value = m.id;
+                opt.textContent = m.name;
+                deleteSelect.appendChild(opt);
+            });
+        }
+
+        window.adminDeleteMember = async function() {
+            const select = document.getElementById('adminDeleteMemberSelect');
+            const memberId = select.value;
+            
+            if(!memberId) {
+                showToast("กรุณาเลือกรายชื่อที่ต้องการลบ", true);
+                return;
+            }
+            
+            const memberName = select.options[select.selectedIndex].text;
+            
+            if(confirm(`คุณแน่ใจหรือไม่ที่จะลบข้อมูลของ "${memberName}" ออกจากระบบถาวร?\n(ข้อมูลดอกไม้ทั้งหมดที่เขาสะสมไว้จะหายไป)`)) {
+                try {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'botanic_members', memberId);
+                    await deleteDoc(docRef);
+                    showToast(`ลบข้อมูลของ ${memberName} สำเร็จ`);
+                    
+                    // หากแอดมินลบชื่อตัวเองที่กำลังล็อกอินอยู่
+                    if(currentUser && currentUser.id === memberId) {
+                        logout();
+                    }
+                } catch(e) {
+                    console.error("Delete error:", e);
+                    showToast("ไม่สามารถลบข้อมูลได้", true);
+                }
+            }
+        }
+
+        // Start App
+        initApp();
+    </script>
+</body>
+</html>

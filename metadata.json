@@ -1,0 +1,6 @@
+{
+  "name": "สมุดสะสมดอกไม้กิลด์ - โลกสวนดอกไม้",
+  "description": "เว็บแอปพลิเคชันสำหรับบันทึกและตรวจสอบดอกไม้ของสมาชิกกิลด์ในเกม โลกสวนดอกไม้ พร้อมสรุปภาพรวมและจัดการระบบ",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
